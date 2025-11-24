@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
-import { LoginPage } from '../pages/LoginPage';
-import { HomePage } from '../pages/HomePage';
-import { CreateUserPage } from '../pages/CreateUserPage';
+import { LoginPage } from '../../pages/LoginPage';
+import { HomePage } from '../../pages/HomePage';
+import { CreateUserPage } from '../../pages/CreateUserPage';
 
 test('Create User: happy path with valid data', async ({ page }) => {
   const login = new LoginPage(page);
