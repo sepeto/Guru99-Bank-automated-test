@@ -1,7 +1,7 @@
 import { Page } from '@playwright/test';
 
 export class CreateUserPage {
-  constructor(private page: Page) {}
+  constructor(private page: Page) { }
 
   elements = {
     name: () => this.page.locator('input[name="name"]'),
@@ -13,11 +13,14 @@ export class CreateUserPage {
     phone: () => this.page.locator('input[name="telephoneno"]'),
     email: () => this.page.locator('input[name="emailid"]'),
     password: () => this.page.locator('input[name="password"]'),
-    submitBtn: () => this.page.locator('input[name="sub"]')
+    submitBtn: () => this.page.locator('input[name="sub"]'),
+    resetBtn: () => this.page.locator('input[type="reset"]'),
+    gender: (value: string) => this.page.locator(`input[value="${value}"]`)
   };
 
   async fillForm(data: {
     name?: string;
+    gender?: 'm' | 'f';
     dob?: string;
     address?: string;
     city?: string;
@@ -28,6 +31,7 @@ export class CreateUserPage {
     password?: string;
   }) {
     if (data.name) await this.elements.name().fill(data.name);
+    if (data.gender) await this.elements.gender(data.gender).click();
     if (data.dob) await this.elements.dob().fill(data.dob);
     if (data.address) await this.elements.address().fill(data.address);
     if (data.city) await this.elements.city().fill(data.city);
@@ -40,5 +44,9 @@ export class CreateUserPage {
 
   async submit() {
     await this.elements.submitBtn().click();
+  }
+
+  async reset() {
+    await this.elements.resetBtn().click();
   }
 }
