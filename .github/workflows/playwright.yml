@@ -2,9 +2,9 @@ name: Playwright Nightly
 
 on:
   push:
-    branches: [main]   
+    branches: [master]   
   pull_request:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
   schedule:
     # cron en UTC. 02:00 UTC = 03:00 Madrid en invierno.
