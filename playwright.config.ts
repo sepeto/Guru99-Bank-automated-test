@@ -19,10 +19,9 @@ export default defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 2,
+  retries: process.env.CI ? 1 : 0,
   /* Opt out of parallel tests on CI. */
-  // workers: process.env.CI ? 5 : 5, // Limit to 5 workers to developing with Chromium
-  workers: process.env.CI ? 1 : 1, // Limit to 1 workers to avoid Firefox contention
+  workers: process.env.CI ? 2 : 1, // More workers in CI for faster execution
 
   reporter: [
     ['html', { outputFolder: 'html-report' }],
@@ -36,7 +35,7 @@ export default defineConfig({
     baseURL: 'https://demo.guru99.com/V4/',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'retain-on-failure',
+    trace: process.env.CI ? 'on-first-retry' : 'retain-on-failure',
 
     /* Take screenshot on failure */
     screenshot: 'only-on-failure',
@@ -44,12 +43,12 @@ export default defineConfig({
     /* Record video on failure */
     video: 'retain-on-failure',
 
-    /* Browser settings */
-    headless: false, // For debugging purposes as specified
+    /* Browser settings - headless in CI, headed locally */
+    headless: process.env.CI ? true : false,
 
-    /* Delay between actions for stability */
-    launchOptions: {
-      slowMo: 300, // 300ms delay between each action
+    /* Delay between actions for stability - only in local development */
+    launchOptions: process.env.CI ? {} : {
+      slowMo: 300, // 300ms delay between each action only for local dev
     }
   },
 
@@ -76,7 +75,7 @@ export default defineConfig({
     //   use: { ...devices['Pixel 5'] },
     // },
     // {
-    //   name: 'Mobile Safari',
+    //   name: 'Mobile Safari',X
     //   use: { ...devices['iPhone 12'] },
     // },
 
