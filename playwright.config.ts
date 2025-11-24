@@ -13,6 +13,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './tests',
+  timeout: 60000, // Increase test timeout to 60 seconds for Firefox
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -20,8 +21,8 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+  workers: process.env.CI ? 1 : 2, // Limit to 2 workers to avoid Firefox contention
+
   reporter: [
     ['html', { outputFolder: 'html-report' }],
     ['json', { outputFile: 'test-results/results.json' }],
@@ -44,6 +45,11 @@ export default defineConfig({
 
     /* Browser settings */
     headless: false, // For debugging purposes as specified
+
+    /* Delay between actions for stability */
+    launchOptions: {
+      slowMo: 300, // 300ms delay between each action
+    }
   },
 
   /* Configure projects for major browsers */

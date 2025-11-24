@@ -5,11 +5,9 @@ test('test', async ({ page }) => {
         await page.goto('https://demo.guru99.com/V4/');
     });
     await test.step('When: click reset button', async () => {
-        await page.locator('input[name="uid"]').click();
         await page.locator('input[name="uid"]').fill('test');
-        await page.locator('input[name="password"]').click();
         await page.locator('input[name="password"]').fill('test');
-        await page.getByRole('button', { name: 'RESET' }).click();
+        await page.locator('input[name="btnReset"]').click();
     });
     await test.step('Then: credentials are reset', async () => {
         await expect(page.locator('input[name="uid"]')).toBeEmpty();
