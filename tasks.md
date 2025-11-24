@@ -1,107 +1,125 @@
-# Tasks.md - Plan Fixtures Create User
+# Tasks - Refactorización POM Implementation
 
-## ✅ TAREAS COMPLETADAS
-- [x] Login básico funcional con credenciales válidas/inválidas
-- [x] Test de creación de usuario (happy path)
-- [x] Configuración base de Playwright y estructura del proyecto
-- [x] Estructura fixtures/create-user/ creada
-- [x] Archivo negative.json con 4 casos de error
-- [x] Tests implementados: invalid email, empty name, invalid PIN, duplicate email
-- [x] Validación - 5 tests pasando correctamente
+## ✅ Completed Tasks
 
-## 🎯 Objetivo actual
-**REFACTORING** - Eliminar datos duplicados y usar fixtures correctamente.
+### Phase 1: Page Object Model Setup
+- [x] **Analyze existing test structure**
+  - [x] Review all test files in `/tests`
+  - [x] Identify common selectors and actions
+  - [x] Understand test patterns
 
-## 🚀 PLAN DE REFACTORING
+- [x] **Create Page Object Structure**
+  - [x] Create `/pages` directory
+  - [x] Implement `LoginPage.ts` with login selectors and actions
+  - [x] Implement `CustomerPage.ts` with customer creation selectors and actions
 
-### Problemas identificados:
-- ❌ Datos duplicados en tests (mal práctica)
-- ❌ Nombres de tests muy largos
-- ❌ Fixtures creados pero no utilizados
-
-### Cambios a realizar:
-1. **Nombres cortos**: `happy`, `error: invalid`, `error: empty`, `error: pin`, `error: duplicate`
-2. **Usar fixtures**: Eliminar datos duplicados del código
-3. **Importar datos**: `negativeData.invalidEmail`, etc
-
-### Acciones:
-- [x] Refactorizar tests para usar `negativeData`
-- [x] Acortar nombres de tests
-- [x] Validar que todo funcione
-
-### Resultado:
-✅ **4/5 tests pasando** - refactoring exitoso
-- `happy` - falla por HTTP 500 del servidor (no es problema del código)
-- `error: invalid email` - ✅ usando fixtures
-- `error: empty name` - ✅ usando fixtures
-- `error: invalid pin` - ✅ usando fixtures
-- `error: duplicate email` - ✅ usando fixtures
-
-## 🗂️ Estructura Fixtures
-```
-fixtures/
-└── create-user/
-    ├── positive.json    # Happy path
-    └── negative.json    # 4 casos fallidos
-```
-
-## 📝 Datos Clave
-
-### positive.json
-```json
-{
-  "validUser": {
-    "name": "Joseba Portas",
-    "email": "test.user@example.com",
-    "phone": "+34685321399",
-    "expected": "success"
-  }
-}
-```
-
-### negative.json
-```json
-{
-  "invalidFields": {
-    "email": "invalid-email",
-    "phone": "abc-phone",
-    "name": "NombreMuyLargoQueExcedeElLimiteMaximoPermitidoPorElSistemaParaValidarRestriccionesDeLongitud",
-    "pin": "123",
-    "expected": "error"
-  },
-  "emptyRequired": {
-    "name": "",
-    "email": "",
-    "expected": "error"
-  },
-  "duplicateEmail": {
-    "email": "sepeto2001@gmail.com",
-    "expected": "error"
-  },
-  "invalidPinLength": {
-    "pin": "1234567",
-    "expected": "error"
-  }
-}
-```
-
-## ✅ PLAN DE ACCIÓN COMPLETADO
-
-### Paso 1: ✅ Estructura fixtures creada
-- [x] Carpeta `fixtures/create-user/` creada
-- [x] `negative.json` con 4 casos de error implementado
-
-### Paso 2: ✅ Tests implementados
-- [x] Test invalid email
-- [x] Test empty name
-- [x] Test invalid PIN
-- [x] Test duplicate email
-
-### Paso 3: ✅ Validación exitosa
-- [x] 5 tests ejecutados y pasando correctamente
-- [x] 27.5s tiempo de ejecución total
-- [x] HTML report generado correctamente
+- [x] **Refactor Existing Tests**
+  - [x] `login.spec.ts` - Clean implementation with LoginPage
+  - [x] `createUser.spec.ts` - Using both LoginPage and CustomerPage
+  - [x] `loginReset.spec.ts` - Using LoginPage reset functionality
+  - [x] `titleExists.spec.ts` - Simple LoginPage navigation test
 
 ---
 
-*¿Vale así? Más simple y conciso.*
+## 📋 Next Phase: Negative Test Implementation
+
+### Phase 2: Complete Negative Test Cases
+- [ ] **Analyze validation requirements**
+  - [ ] Use Chrome DevTools to test form validations
+  - [ ] Document error messages and constraints
+  - [ ] Create test data for negative scenarios
+
+- [ ] **Implement negative tests**
+  - [ ] Invalid email formats
+  - [ ] Empty required fields
+  - [ ] Duplicate email scenarios
+  - [ ] Invalid PIN length/format
+  - [ ] Special characters in name field
+
+### Phase 3: Code Quality & Maintenance
+- [ ] **Code improvements**
+  - [ ] Add TypeScript interfaces for form data
+  - [ ] Create test utilities and helpers
+  - [ ] Add comprehensive error handling
+
+- [ ] **Documentation**
+  - [ ] Update CLAUDE.md with POM structure
+  - [ ] Add usage examples for pages
+  - [ ] Document test patterns
+
+---
+
+## 🎯 Architecture Benefits Achieved
+
+### Code Reusability
+- ✅ **Centralized selectors** - All locators in one place
+- ✅ **Reusable actions** - Login, form filling, navigation methods
+- ✅ **Clean test code** - Tests focus on business logic, not implementation details
+
+### Maintainability
+- ✅ **Single responsibility** - Each page handles its own functionality
+- ✅ **Easy updates** - Change selectors in one place
+- ✅ **Consistent patterns** - All tests follow same structure
+
+### Test Clarity
+- ✅ **Business-focused** - Tests read like user actions
+- ✅ **Reduced duplication** - Common actions reused across tests
+- ✅ **Better organization** - Logical separation of concerns
+
+---
+
+## 📊 Current Project Structure
+
+```
+qa-automation-izertis/
+├── pages/                    # Page Object Models
+│   ├── LoginPage.ts         # Login functionality
+│   └── CustomerPage.ts      # Customer creation functionality
+├── tests/                    # Test implementations
+│   ├── login.spec.ts        # Login tests ✅
+│   ├── loginReset.spec.ts   # Reset functionality ✅
+│   ├── titleExists.spec.ts  # Title validation ✅
+│   ├── createUser.spec.ts   # Customer creation ✅
+│   └── createUserNegativeCases.spec.ts  # TODO
+├── tasks.md                 # This file
+├── playwright.config.ts     # Playwright configuration
+└── CLAUDE.md               # Project documentation
+```
+
+---
+
+## 🚀 Usage Examples
+
+### Login Test Pattern
+```typescript
+const loginPage = new LoginPage(page);
+
+await test.step('Given: I am logged in', async () => {
+    await loginPage.navigate();
+    await loginPage.loginSuccessfully();
+});
+```
+
+### Customer Creation Test Pattern
+```typescript
+const customerPage = new CustomerPage(page);
+
+await test.step('When: I fill customer form', async () => {
+    await customerPage.navigateToNewCustomer();
+    await customerPage.fillCustomerForm({
+        name: 'John Doe',
+        email: 'john@example.com',
+        // ... other fields
+    });
+    await customerPage.submit();
+});
+```
+
+---
+
+## 🎯 Next Priority Items
+
+1. **Complete negative test cases** using the established POM pattern
+2. **Run tests to verify** all refactored functionality works correctly
+3. **Add test utilities** for common test data generation
+4. **Consider adding fixtures** for test data management

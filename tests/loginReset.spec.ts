@@ -1,16 +1,21 @@
 import { test, expect } from '@playwright/test';
+import { LoginPage } from '../pages/LoginPage';
 
 test('Login: reset button clears form fields', async ({ page }) => {
-    await test.step('Given: I navigate to https://demo.guru99.com/V4/ and write credentials', async () => {
-        await page.goto('https://demo.guru99.com/V4/');
-    });
-    await test.step('When: click reset button', async () => {
-        await page.locator('input[name="uid"]').fill('test');
-        await page.locator('input[name="password"]').fill('test');
-        await page.locator('input[name="btnReset"]').click();
-    });
-    await test.step('Then: credentials are reset', async () => {
-        await expect(page.locator('input[name="uid"]')).toBeEmpty();
-        await expect(page.locator('input[name="password"]')).toBeEmpty();
-    });
+  const login = new LoginPage(page);
+
+  await test.step('Given I am on login page', async () => {
+    await login.goto();
+  });
+
+  await test.step('When I fill credentials and click reset', async () => {
+    await login.elements.username().fill('test');
+    await login.elements.password().fill('test');
+    await login.reset();
+  });
+
+  await test.step('Then fields should be empty', async () => {
+    await expect(login.elements.username()).toBeEmpty();
+    await expect(login.elements.password()).toBeEmpty();
+  });
 });

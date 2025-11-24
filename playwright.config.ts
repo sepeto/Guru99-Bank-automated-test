@@ -21,8 +21,8 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : 5, // Limit to 5 workers to developing with Chromium
-  // workers: process.env.CI ? 1 : 1, // Limit to 1 workers to avoid Firefox contention
+  // workers: process.env.CI ? 1 : 5, // Limit to 5 workers to developing with Chromium
+  workers: process.env.CI ? 1 : 1, // Limit to 1 workers to avoid Firefox contention
 
   reporter: [
     ['html', { outputFolder: 'html-report' }],
