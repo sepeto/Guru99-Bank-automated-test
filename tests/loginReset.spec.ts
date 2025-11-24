@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('test', async ({ page }) => {
+test('Login: reset button clears form fields', async ({ page }) => {
     await test.step('Given: I navigate to https://demo.guru99.com/V4/ and write credentials', async () => {
         await page.goto('https://demo.guru99.com/V4/');
     });

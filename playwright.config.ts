@@ -21,7 +21,8 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : 2, // Limit to 2 workers to avoid Firefox contention
+  workers: process.env.CI ? 1 : 5, // Limit to 5 workers to developing with Chromium
+  // workers: process.env.CI ? 1 : 1, // Limit to 1 workers to avoid Firefox contention
 
   reporter: [
     ['html', { outputFolder: 'html-report' }],
@@ -35,7 +36,7 @@ export default defineConfig({
     baseURL: 'https://demo.guru99.com/V4/',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
 
     /* Take screenshot on failure */
     screenshot: 'only-on-failure',
@@ -59,10 +60,10 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
 
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
 
     // {
     //   name: 'webkit',

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 const registerTime = Date.now(); // number
 
-test('test', async ({ page }) => {
+test('Create User: happy path with valid data', async ({ page }) => {
     await test.step('Given: I navigate to the login page and login successfully', async () => {
         await page.goto('https://demo.guru99.com/V4/');
         await page.locator('input[name="uid"]').fill('mngr646730');
